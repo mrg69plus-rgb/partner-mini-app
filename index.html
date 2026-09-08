@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>انتخاب‌ها</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <title>❤️ انتخاب‌ها</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -16,81 +21,193 @@
     body {
       margin: 0;
       padding: 16px;
+      padding-bottom: 90px;
       font-family: system-ui, sans-serif;
+
       background: var(--tg-theme-bg-color, #ffffff);
       color: var(--tg-theme-text-color, #000000);
     }
 
     h1 {
-      font-size: 22px;
-      margin-bottom: 8px;
+      margin: 5px 0 6px;
+      font-size: 23px;
     }
 
     .subtitle {
-      opacity: 0.7;
-      margin-bottom: 20px;
+      opacity: 0.65;
+      margin-bottom: 18px;
     }
 
     #search {
       width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      background: var(--tg-theme-secondary-bg-color, #f3f3f3);
-      color: var(--tg-theme-text-color, #000000);
+      padding: 13px;
+      border-radius: 13px;
+
+      border: 1px solid
+        var(--tg-theme-hint-color, #cccccc);
+
+      background:
+        var(--tg-theme-secondary-bg-color, #f3f3f3);
+
+      color:
+        var(--tg-theme-text-color, #000000);
+
       font-size: 16px;
-      margin-bottom: 16px;
+      outline: none;
+
+      margin-bottom: 14px;
     }
 
     .options {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 9px;
     }
 
     .option {
-      border: 1px solid #ccc;
-      border-radius: 14px;
-      padding: 14px 10px;
+      min-height: 52px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 10px;
+
       text-align: center;
+
+      border-radius: 13px;
+
+      border: 1px solid
+        var(--tg-theme-hint-color, #cccccc);
+
+      background:
+        var(--tg-theme-secondary-bg-color, #f3f3f3);
+
       cursor: pointer;
+
       user-select: none;
-      transition: 0.15s;
+
+      transition: transform 0.08s;
+    }
+
+    .option:active {
+      transform: scale(0.97);
     }
 
     .option.selected {
-      border-color: #2481cc;
-      background: rgba(36, 129, 204, 0.15);
+      border-color:
+        var(--tg-theme-button-color, #2481cc);
+
+      background:
+        var(--tg-theme-button-color, #2481cc);
+
+      color:
+        var(--tg-theme-button-text-color, #ffffff);
     }
 
     .counter {
-      margin-top: 20px;
+      margin-top: 18px;
+
       text-align: center;
+
       font-weight: bold;
+
+      opacity: 0.8;
     }
 
     .custom {
-      margin-top: 24px;
+      margin-top: 25px;
+    }
+
+    .custom-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .custom-row {
+      display: flex;
+      gap: 8px;
     }
 
     .custom input {
-      width: 100%;
+      min-width: 0;
+      flex: 1;
+
       padding: 12px;
+
       border-radius: 12px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-      background: var(--tg-theme-secondary-bg-color, #f3f3f3);
-      color: var(--tg-theme-text-color, #000000);
+
+      border: 1px solid
+        var(--tg-theme-hint-color, #cccccc);
+
+      background:
+        var(--tg-theme-secondary-bg-color, #f3f3f3);
+
+      color:
+        var(--tg-theme-text-color, #000000);
+
+      font-size: 15px;
+      outline: none;
     }
 
     .custom button {
-      width: 100%;
-      margin-top: 8px;
-      padding: 12px;
+      padding: 0 17px;
+
       border: 0;
+
       border-radius: 12px;
-      font-size: 16px;
+
+      background:
+        var(--tg-theme-button-color, #2481cc);
+
+      color:
+        var(--tg-theme-button-text-color, #ffffff);
+
+      font-size: 15px;
+
       cursor: pointer;
+    }
+
+    .submit {
+      position: fixed;
+
+      bottom: 12px;
+      right: 16px;
+      left: 16px;
+
+      width: calc(100% - 32px);
+
+      padding: 15px;
+
+      border: 0;
+
+      border-radius: 14px;
+
+      background:
+        var(--tg-theme-button-color, #2481cc);
+
+      color:
+        var(--tg-theme-button-text-color, #ffffff);
+
+      font-size: 17px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .submit:disabled {
+      opacity: 0.5;
+    }
+
+    #message {
+      text-align: center;
+
+      margin-top: 15px;
+
+      font-size: 14px;
+
+      opacity: 0.8;
     }
   </style>
 </head>
@@ -113,208 +230,394 @@
   <div id="options" class="options"></div>
 
   <div class="counter">
-    <span id="count">0</span> مورد انتخاب شده
+    <span id="count">0</span>
+    مورد انتخاب شده
   </div>
 
   <div class="custom">
 
-    <input
-      id="customInput"
-      type="text"
-      placeholder="➕ چیزی که خودت می‌خوای اضافه کن..."
-    >
+    <div class="custom-title">
+      ➕ گزینه خودت رو اضافه کن
+    </div>
 
-    <button onclick="addCustomOption()">
-      اضافه کردن
-    </button>
+    <div class="custom-row">
+
+      <input
+        id="customInput"
+        type="text"
+        placeholder="مثلاً یک مورد دیگر..."
+        maxlength="100"
+      >
+
+      <button onclick="addCustomOption()">
+        اضافه
+      </button>
+
+    </div>
 
   </div>
 
+  <div id="message"></div>
+
+  <button
+    id="submitButton"
+    class="submit"
+    onclick="submitChoices()"
+  >
+    🟢 ثبت انتخاب‌ها
+  </button>
+
+
   <script>
 
-    // ========================================
+    // ==========================================
+    // آدرس Worker
+    // بعداً این قسمت را تغییر می‌دهیم
+    // ==========================================
+
+    const WORKER_URL = "PASTE_WORKER_URL_HERE";
+
+
+    // ==========================================
     // لیست گزینه‌ها
-    // خودت این قسمت رو تغییر بده
-    // ========================================
+    // این قسمت را خودت می‌توانی تغییر بدهی
+    // ==========================================
 
     const options = [
-  // خشن
-  "سیلی تو صورت",
-  "کتک با کمربند",
-  "شلاق",
-  "کشیدن مو",
-  "گرفتن گلو",
-  "فشار صورت روی تخت",
-  "نیشگون ران و باسن",
-  "کشیدن نوک سینه",
-  "کتک موقع مکیدن",
-  "زدن با کف دست روی کون خیس",
+      "سیلی تو صورت",
+      "کتک با کمربند",
+      "شلاق",
+      "کشیدن مو",
+      "گرفتن گلو",
+      "فشار صورت روی تخت",
+      "نیشگون ران و باسن",
+      "کشیدن نوک سینه",
+      "کتک موقع مکیدن",
+      "زدن با کف دست روی کون خیس",
 
-  // بستن
-  "دست پشت کمر",
-  "دست بالای سر به تخت",
-  "پا باز بسته",
-  "چشم‌بند",
-  "دهان‌بند",
-  "بستن با کمربند",
-  "بستن کامل و چند دقیقه ول کردن",
-  "بستن روی صندلی",
+      "دست پشت کمر",
+      "دست بالای سر به تخت",
+      "پا باز بسته",
+      "چشم‌بند",
+      "دهان‌بند",
+      "بستن با کمربند",
+      "بستن کامل و چند دقیقه ول کردن",
+      "بستن روی صندلی",
 
-  // تحقیر
-  "صدا زدن جنده کونی مفعول اسلات سگ",
-  "مجبور کردن بگه من جنده‌ام",
-  "مجبور کردن بگه من کونیم",
-  "التماس کردن",
-  "پا روی صورت",
-  "نشستن روی صورت",
-  "لیسیدن کفش",
-  "صورت روی کف پا",
-  "بو کردن پا و زیربغل",
-  "خزیدن روی زمین",
-  "اجباری کردن خودش رو تو آینه نگاه کنه وقتی کثیفه",
+      "صدا زدن جنده کونی مفعول اسلات سگ",
+      "مجبور کردن بگه من جنده‌ام",
+      "مجبور کردن بگه من کونیم",
+      "التماس کردن",
+      "پا روی صورت",
+      "نشستن روی صورت",
+      "لیسیدن کفش",
+      "صورت روی کف پا",
+      "بو کردن پا و زیربغل",
+      "خزیدن روی زمین",
+      "اجباری کردن خودش رو تو آینه نگاه کنه وقتی کثیفه",
 
-  // توف و شاش
-  "توف رو صورت",
-  "توف تو دهن",
-  "شاش رو صورت",
-  "شاش تو دهن",
-  "صورت خیس از توف و شاش تا آخر",
-  "مخلوط توف و شاش روی صورت",
+      "توف رو صورت",
+      "توف تو دهن",
+      "شاش رو صورت",
+      "شاش تو دهن",
+      "صورت خیس از توف و شاش تا آخر",
+      "مخلوط توف و شاش روی صورت",
 
-  // دهن و گلو
-  "کردن تو دهن تا خفه بشه",
-  "کردن تا استفراغ بیاد",
-  "تمام کردن رو صورت",
-  "تمام کردن تو دهن و نگه داشتن",
-  "مالیدن منی روی چشم و ابرو",
-  "خشک کردن کیر با مو",
+      "کردن تو دهن تا خفه بشه",
+      "کردن تا استفراغ بیاد",
+      "تمام کردن رو صورت",
+      "تمام کردن تو دهن و نگه داشتن",
+      "مالیدن منی روی چشم و ابرو",
+      "خشک کردن کیر با مو",
 
-  // گروهی
-  "تری‌سام با دو نفر",
-  "کردن توسط دو نفر همزمان",
-  "یکی تو دهن یکی تو کون",
-  "چند نفر پشت سر هم",
-  "گنگ‌بنگ",
-  "تمام کردن چند نفر رو صورت",
-  "تماشای پارتنر که با کس دیگه می‌کنه",
-  "استفاده شدن توسط چند نفر بدون حرف زدن",
+      "تری‌سام با دو نفر",
+      "کردن توسط دو نفر همزمان",
+      "یکی تو دهن یکی تو کون",
+      "چند نفر پشت سر هم",
+      "گنگ‌بنگ",
+      "تمام کردن چند نفر رو صورت",
+      "تماشای پارتنر که با کس دیگه می‌کنه",
+      "استفاده شدن توسط چند نفر بدون حرف زدن",
 
-  // فضا
-  "تراس",
-  "پنجره با پرده نیمه‌باز",
-  "ماشین شب",
-  "پارک خلوت",
-  "پشت‌بام",
-  "آشپزخونه روی سینک",
-  "حموم",
-  "وقتی بقیه تو خونه‌ان اتاق بغلی",
-  "کنار در نیمه‌باز",
+      "تراس",
+      "پنجره با پرده نیمه‌باز",
+      "ماشین شب",
+      "پارک خلوت",
+      "پشت‌بام",
+      "آشپزخونه روی سینک",
+      "حموم",
+      "وقتی بقیه تو خونه‌ان اتاق بغلی",
+      "کنار در نیمه‌باز",
 
-  // دارک
-  "بیدار کردن نصف شب و کردن",
-  "استفاده وقتی حال نداره",
-  "چند بار پشت سر هم بدون استراحت",
-  "گریه و ادامه دادن",
-  "نقش اینکه نمی‌تونه نه بگه",
-  "تهدید کلامی به فیلم",
-  "عکس از صورت خراب‌شده",
-  "مجبور کردن خودش رو کثیف نگه داره",
-  "نقش دزدیده شدن",
-  "نقش ارباب و برده کامل",
-  "استفاده مثل وسیله",
+      "بیدار کردن نصف شب و کردن",
+      "استفاده وقتی حال نداره",
+      "چند بار پشت سر هم بدون استراحت",
+      "گریه و ادامه دادن",
+      "نقش اینکه نمی‌تونه نه بگه",
+      "تهدید کلامی به فیلم",
+      "عکس از صورت خراب‌شده",
+      "مجبور کردن خودش رو کثیف نگه داره",
+      "نقش دزدیده شدن",
+      "نقش ارباب و برده کامل",
+      "استفاده مثل وسیله",
 
-  // کنترل و سرویس
-  "حق ارگاسم نداشتن مگر اجازه",
-  "لمس نکردن خودش",
-  "فقط با اشاره حرکت کردن",
-  "سرویس پا",
-  "سرویس کیر بدون توجه به خودش",
-  "چند ساعت در اختیار بودن"
-];
+      "حق ارگاسم نداشتن مگر اجازه",
+      "لمس نکردن خودش",
+      "فقط با اشاره حرکت کردن",
+      "سرویس پا",
+      "سرویس کیر بدون توجه به خودش",
+      "چند ساعت در اختیار بودن"
+    ];
 
-    // ========================================
+
+    // ==========================================
 
     const selected = new Set();
 
+    const customOptions = new Set();
+
     const telegram = window.Telegram?.WebApp;
+
 
     if (telegram) {
       telegram.ready();
       telegram.expand();
+
+      telegram.setHeaderColor(
+        telegram.themeParams.bg_color ||
+        "#ffffff"
+      );
     }
+
 
     function renderOptions() {
 
-      const container = document.getElementById("options");
+      const container =
+        document.getElementById("options");
 
       const search =
-        document.getElementById("search")
+        document
+          .getElementById("search")
           .value
           .trim()
           .toLowerCase();
 
       container.innerHTML = "";
 
-      options
+
+      const allOptions = [
+        ...options,
+        ...customOptions
+      ];
+
+
+      allOptions
         .filter(option =>
           option.toLowerCase().includes(search)
         )
         .forEach(option => {
 
-          const div = document.createElement("div");
+          const div =
+            document.createElement("div");
 
           div.className =
             "option" +
-            (selected.has(option) ? " selected" : "");
+            (
+              selected.has(option)
+                ? " selected"
+                : ""
+            );
 
           div.textContent = option;
+
 
           div.onclick = () => {
 
             if (selected.has(option)) {
+
               selected.delete(option);
+
             } else {
+
               selected.add(option);
+
             }
 
             renderOptions();
+
             updateCounter();
           };
+
 
           container.appendChild(div);
         });
     }
 
+
     function updateCounter() {
 
-      document.getElementById("count")
+      document
+        .getElementById("count")
         .textContent = selected.size;
     }
+
 
     function addCustomOption() {
 
       const input =
         document.getElementById("customInput");
 
-      const value = input.value.trim();
+      const value =
+        input.value.trim();
 
-      if (!value) return;
+
+      if (!value) {
+        return;
+      }
+
 
       if (!options.includes(value)) {
-        options.push(value);
+
+        customOptions.add(value);
+
       }
+
 
       selected.add(value);
 
       input.value = "";
 
       renderOptions();
+
       updateCounter();
     }
 
+
+    async function submitChoices() {
+
+      if (selected.size === 0) {
+
+        showMessage(
+          "حداقل یک گزینه انتخاب کن."
+        );
+
+        return;
+      }
+
+
+      if (
+        !WORKER_URL ||
+        WORKER_URL === "PASTE_WORKER_URL_HERE"
+      ) {
+
+        showMessage(
+          "آدرس Worker هنوز تنظیم نشده."
+        );
+
+        return;
+      }
+
+
+      const button =
+        document.getElementById("submitButton");
+
+
+      button.disabled = true;
+
+      button.textContent =
+        "⏳ در حال ثبت...";
+
+
+      const data = {
+
+        selected: [
+          ...selected
+        ],
+
+        custom: [
+          ...customOptions
+        ],
+
+        telegramUser:
+          telegram?.initDataUnsafe?.user || null
+      };
+
+
+      try {
+
+        const response =
+          await fetch(
+            WORKER_URL,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify(data)
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Request failed"
+          );
+        }
+
+
+        showMessage(
+          "✅ انتخاب‌ها با موفقیت ثبت شد."
+        );
+
+
+        button.textContent =
+          "✅ ثبت شد";
+
+
+        if (telegram) {
+
+          telegram.HapticFeedback
+            ?.notificationOccurred(
+              "success"
+            );
+        }
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+          "❌ خطا در ثبت. دوباره امتحان کن."
+        );
+
+
+        button.disabled = false;
+
+        button.textContent =
+          "🟢 ثبت انتخاب‌ها";
+      }
+    }
+
+
+    function showMessage(text) {
+
+      document
+        .getElementById("message")
+        .textContent = text;
+    }
+
+
     renderOptions();
+
+    updateCounter();
 
   </script>
 
 </body>
+
 </html>
