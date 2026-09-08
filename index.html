@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>انتخاب‌ها</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: system-ui, sans-serif;
+      background: var(--tg-theme-bg-color, #ffffff);
+      color: var(--tg-theme-text-color, #000000);
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+
+    #search {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      background: var(--tg-theme-secondary-bg-color, #f3f3f3);
+      color: var(--tg-theme-text-color, #000000);
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .option {
+      border: 1px solid #ccc;
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      transition: 0.15s;
+    }
+
+    .option.selected {
+      border-color: #2481cc;
+      background: rgba(36, 129, 204, 0.15);
+    }
+
+    .counter {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .custom {
+      margin-top: 24px;
+    }
+
+    .custom input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      background: var(--tg-theme-secondary-bg-color, #f3f3f3);
+      color: var(--tg-theme-text-color, #000000);
+    }
+
+    .custom button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 12px;
+      border: 0;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>❤️ انتخاب‌ها</h1>
+
+  <div class="subtitle">
+    مواردی که دوست داری رو انتخاب کن
+  </div>
+
+  <input
+    id="search"
+    type="text"
+    placeholder="🔎 جستجو..."
+    oninput="renderOptions()"
+  >
+
+  <div id="options" class="options"></div>
+
+  <div class="counter">
+    <span id="count">0</span> مورد انتخاب شده
+  </div>
+
+  <div class="custom">
+
+    <input
+      id="customInput"
+      type="text"
+      placeholder="➕ چیزی که خودت می‌خوای اضافه کن..."
+    >
+
+    <button onclick="addCustomOption()">
+      اضافه کردن
+    </button>
+
+  </div>
+
+  <script>
+
+    // ========================================
+    // لیست گزینه‌ها
+    // خودت این قسمت رو تغییر بده
+    // ========================================
+
+    const options = [
+  // خشن
+  "سیلی تو صورت",
+  "کتک با کمربند",
+  "شلاق",
+  "کشیدن مو",
+  "گرفتن گلو",
+  "فشار صورت روی تخت",
+  "نیشگون ران و باسن",
+  "کشیدن نوک سینه",
+  "کتک موقع مکیدن",
+  "زدن با کف دست روی کون خیس",
+
+  // بستن
+  "دست پشت کمر",
+  "دست بالای سر به تخت",
+  "پا باز بسته",
+  "چشم‌بند",
+  "دهان‌بند",
+  "بستن با کمربند",
+  "بستن کامل و چند دقیقه ول کردن",
+  "بستن روی صندلی",
+
+  // تحقیر
+  "صدا زدن جنده کونی مفعول اسلات سگ",
+  "مجبور کردن بگه من جنده‌ام",
+  "مجبور کردن بگه من کونیم",
+  "التماس کردن",
+  "پا روی صورت",
+  "نشستن روی صورت",
+  "لیسیدن کفش",
+  "صورت روی کف پا",
+  "بو کردن پا و زیربغل",
+  "خزیدن روی زمین",
+  "اجباری کردن خودش رو تو آینه نگاه کنه وقتی کثیفه",
+
+  // توف و شاش
+  "توف رو صورت",
+  "توف تو دهن",
+  "شاش رو صورت",
+  "شاش تو دهن",
+  "صورت خیس از توف و شاش تا آخر",
+  "مخلوط توف و شاش روی صورت",
+
+  // دهن و گلو
+  "کردن تو دهن تا خفه بشه",
+  "کردن تا استفراغ بیاد",
+  "تمام کردن رو صورت",
+  "تمام کردن تو دهن و نگه داشتن",
+  "مالیدن منی روی چشم و ابرو",
+  "خشک کردن کیر با مو",
+
+  // گروهی
+  "تری‌سام با دو نفر",
+  "کردن توسط دو نفر همزمان",
+  "یکی تو دهن یکی تو کون",
+  "چند نفر پشت سر هم",
+  "گنگ‌بنگ",
+  "تمام کردن چند نفر رو صورت",
+  "تماشای پارتنر که با کس دیگه می‌کنه",
+  "استفاده شدن توسط چند نفر بدون حرف زدن",
+
+  // فضا
+  "تراس",
+  "پنجره با پرده نیمه‌باز",
+  "ماشین شب",
+  "پارک خلوت",
+  "پشت‌بام",
+  "آشپزخونه روی سینک",
+  "حموم",
+  "وقتی بقیه تو خونه‌ان اتاق بغلی",
+  "کنار در نیمه‌باز",
+
+  // دارک
+  "بیدار کردن نصف شب و کردن",
+  "استفاده وقتی حال نداره",
+  "چند بار پشت سر هم بدون استراحت",
+  "گریه و ادامه دادن",
+  "نقش اینکه نمی‌تونه نه بگه",
+  "تهدید کلامی به فیلم",
+  "عکس از صورت خراب‌شده",
+  "مجبور کردن خودش رو کثیف نگه داره",
+  "نقش دزدیده شدن",
+  "نقش ارباب و برده کامل",
+  "استفاده مثل وسیله",
+
+  // کنترل و سرویس
+  "حق ارگاسم نداشتن مگر اجازه",
+  "لمس نکردن خودش",
+  "فقط با اشاره حرکت کردن",
+  "سرویس پا",
+  "سرویس کیر بدون توجه به خودش",
+  "چند ساعت در اختیار بودن"
+];
+
+    // ========================================
+
+    const selected = new Set();
+
+    const telegram = window.Telegram?.WebApp;
+
+    if (telegram) {
+      telegram.ready();
+      telegram.expand();
+    }
+
+    function renderOptions() {
+
+      const container = document.getElementById("options");
+
+      const search =
+        document.getElementById("search")
+          .value
+          .trim()
+          .toLowerCase();
+
+      container.innerHTML = "";
+
+      options
+        .filter(option =>
+          option.toLowerCase().includes(search)
+        )
+        .forEach(option => {
+
+          const div = document.createElement("div");
+
+          div.className =
+            "option" +
+            (selected.has(option) ? " selected" : "");
+
+          div.textContent = option;
+
+          div.onclick = () => {
+
+            if (selected.has(option)) {
+              selected.delete(option);
+            } else {
+              selected.add(option);
+            }
+
+            renderOptions();
+            updateCounter();
+          };
+
+          container.appendChild(div);
+        });
+    }
+
+    function updateCounter() {
+
+      document.getElementById("count")
+        .textContent = selected.size;
+    }
+
+    function addCustomOption() {
+
+      const input =
+        document.getElementById("customInput");
+
+      const value = input.value.trim();
+
+      if (!value) return;
+
+      if (!options.includes(value)) {
+        options.push(value);
+      }
+
+      selected.add(value);
+
+      input.value = "";
+
+      renderOptions();
+      updateCounter();
+    }
+
+    renderOptions();
+
+  </script>
+
+</body>
+</html>
