@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     >
 
-    <title>انتخاب سفارش</title>
+    <title>Order</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
+
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
@@ -20,8 +24,6 @@
         body {
             margin: 0;
             padding: 16px;
-            background: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #111111);
             font-family:
                 -apple-system,
                 BlinkMacSystemFont,
@@ -29,71 +31,135 @@
                 Tahoma,
                 Arial,
                 sans-serif;
+
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #111111);
         }
 
         .container {
+            width: 100%;
             max-width: 700px;
-            margin: auto;
+            margin: 0 auto;
         }
 
         h1 {
             text-align: center;
-            margin: 8px 0 20px;
-            font-size: 24px;
+            font-size: 23px;
+            margin: 5px 0 18px;
         }
 
-        .search-box {
+        /* SEARCH */
+
+        .search {
             width: 100%;
             padding: 13px 15px;
-            border: 1px solid var(--tg-theme-hint-color, #aaa);
             border-radius: 12px;
-            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            color: var(--tg-theme-text-color, #111);
-            font-size: 16px;
+            border: 1px solid #aaa;
             outline: none;
-            margin-bottom: 14px;
+
+            background: var(
+                --tg-theme-secondary-bg-color,
+                #f5f5f5
+            );
+
+            color: var(
+                --tg-theme-text-color,
+                #111
+            );
+
+            font-size: 16px;
+            margin-bottom: 12px;
         }
+
+        /* COUNTER */
 
         .counter {
             text-align: center;
             font-size: 14px;
-            color: var(--tg-theme-hint-color, #777);
             margin-bottom: 14px;
+
+            color: var(
+                --tg-theme-hint-color,
+                #777
+            );
         }
 
-        .options-grid {
+        /* OPTIONS */
+
+        .options {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
         }
 
         .option {
-            padding: 14px 10px;
-            border: 1px solid var(--tg-theme-hint-color, #bbb);
+            min-height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 10px;
+
             border-radius: 12px;
-            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            border: 1px solid #aaa;
+
+            background: var(
+                --tg-theme-secondary-bg-color,
+                #f5f5f5
+            );
+
+            color: var(
+                --tg-theme-text-color,
+                #111
+            );
+
+            font-size: 14px;
             text-align: center;
+
             cursor: pointer;
             user-select: none;
-            transition: 0.15s;
-            font-size: 14px;
+
+            transition:
+                background 0.15s,
+                color 0.15s,
+                transform 0.1s;
+        }
+
+        .option:active {
+            transform: scale(0.97);
         }
 
         .option.selected {
-            background: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #fff);
-            border-color: var(--tg-theme-button-color, #2481cc);
+            background: var(
+                --tg-theme-button-color,
+                #2481cc
+            );
+
+            color: var(
+                --tg-theme-button-text-color,
+                white
+            );
+
+            border-color: var(
+                --tg-theme-button-color,
+                #2481cc
+            );
         }
 
+        /* SECTION */
+
         .section {
-            margin-top: 22px;
+            margin-top: 24px;
         }
 
         .section-title {
             font-size: 17px;
-            font-weight: 700;
+            font-weight: bold;
             margin-bottom: 10px;
         }
+
+        /* CUSTOM */
 
         .custom-row {
             display: flex;
@@ -102,24 +168,45 @@
 
         .custom-input {
             flex: 1;
+
             min-width: 0;
+
             padding: 13px;
-            border: 1px solid var(--tg-theme-hint-color, #aaa);
+
             border-radius: 12px;
-            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            color: var(--tg-theme-text-color, #111);
+            border: 1px solid #aaa;
+
+            background: var(
+                --tg-theme-secondary-bg-color,
+                #f5f5f5
+            );
+
+            color: var(
+                --tg-theme-text-color,
+                #111
+            );
+
             font-size: 15px;
             outline: none;
         }
 
-        .add-btn {
+        .add-button {
             border: none;
             border-radius: 12px;
+
             padding: 0 18px;
-            background: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #fff);
+
+            background: var(
+                --tg-theme-button-color,
+                #2481cc
+            );
+
+            color: var(
+                --tg-theme-button-text-color,
+                white
+            );
+
             font-size: 15px;
-            cursor: pointer;
         }
 
         .custom-list {
@@ -128,32 +215,47 @@
 
         .custom-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+
             padding: 10px 12px;
             margin-bottom: 7px;
+
             border-radius: 10px;
-            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+
+            background: var(
+                --tg-theme-secondary-bg-color,
+                #f5f5f5
+            );
         }
 
-        .remove-btn {
+        .remove {
             border: none;
             background: transparent;
+
             color: #e74c3c;
-            font-size: 20px;
-            cursor: pointer;
+
+            font-size: 22px;
         }
+
+        /* SCHEDULE */
 
         .schedule {
             margin-top: 24px;
+
             padding: 15px;
+
             border-radius: 14px;
-            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+
+            background: var(
+                --tg-theme-secondary-bg-color,
+                #f5f5f5
+            );
         }
 
         .schedule-title {
             font-size: 18px;
-            font-weight: 700;
+            font-weight: bold;
             margin-bottom: 14px;
         }
 
@@ -165,92 +267,140 @@
 
         .field label {
             display: block;
+
             font-size: 13px;
+
             margin-bottom: 6px;
-            color: var(--tg-theme-hint-color, #666);
+
+            color: var(
+                --tg-theme-hint-color,
+                #777
+            );
         }
 
         select,
-        .time-input {
+        input[type="time"] {
+
             width: 100%;
+
             padding: 12px 8px;
+
             border-radius: 10px;
-            border: 1px solid var(--tg-theme-hint-color, #aaa);
-            background: var(--tg-theme-bg-color, #fff);
-            color: var(--tg-theme-text-color, #111);
+
+            border: 1px solid #aaa;
+
+            background: var(
+                --tg-theme-bg-color,
+                white
+            );
+
+            color: var(
+                --tg-theme-text-color,
+                #111
+            );
+
             font-size: 15px;
+
             outline: none;
         }
 
+        .time-field,
         .duration-field {
             margin-top: 12px;
         }
 
-        .submit-btn {
+        /* SUBMIT */
+
+        .submit {
             width: 100%;
+
             margin-top: 24px;
+
             padding: 15px;
+
             border: none;
             border-radius: 13px;
-            background: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #fff);
+
+            background: var(
+                --tg-theme-button-color,
+                #2481cc
+            );
+
+            color: var(
+                --tg-theme-button-text-color,
+                white
+            );
+
             font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
+            font-weight: bold;
         }
 
-        .submit-btn:disabled {
+        .submit:disabled {
             opacity: 0.6;
         }
 
         .message {
             text-align: center;
+
             margin-top: 12px;
+
             font-size: 14px;
         }
 
-        @media (max-width: 430px) {
-            .options-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .date-grid {
-                grid-template-columns: 1fr 1fr 1fr;
-            }
-
-            .option {
-                font-size: 13px;
-                padding: 12px 7px;
-            }
-        }
     </style>
+
 </head>
+
 
 <body>
 
 <div class="container">
 
+
     <h1>📋 انتخاب گزینه‌ها</h1>
+
+
+    <!-- SEARCH -->
 
     <input
         id="search"
-        class="search-box"
+        class="search"
         type="text"
         placeholder="🔎 جستجو..."
         autocomplete="off"
     >
 
-    <div id="counter" class="counter">
+
+    <!-- COUNTER -->
+
+    <div
+        id="counter"
+        class="counter"
+    >
         ۰ گزینه انتخاب شده
     </div>
 
-    <div id="options" class="options-grid"></div>
+
+    <!--
+        ==========================================
+        لیست گزینه‌های آماده
+        ==========================================
+    -->
+
+    <div
+        id="options"
+        class="options"
+    ></div>
+
+
+    <!-- CUSTOM -->
 
     <div class="section">
 
         <div class="section-title">
             ✏️ گزینه سفارشی
         </div>
+
 
         <div class="custom-row">
 
@@ -262,9 +412,10 @@
                 autocomplete="off"
             >
 
+
             <button
                 id="addCustom"
-                class="add-btn"
+                class="add-button"
                 type="button"
             >
                 افزودن
@@ -272,67 +423,111 @@
 
         </div>
 
-        <div id="customList" class="custom-list"></div>
+
+        <div
+            id="customList"
+            class="custom-list"
+        ></div>
 
     </div>
 
-    <!-- زمان -->
+
+    <!-- SCHEDULE -->
+
     <div class="schedule">
 
         <div class="schedule-title">
             🗓 زمان
         </div>
 
+
+        <!-- JALALI DATE -->
+
         <div class="date-grid">
 
             <div class="field">
-                <label>روز</label>
+
+                <label>
+                    روز
+                </label>
 
                 <select id="day">
-                    <option value="">روز</option>
+
+                    <option value="">
+                        روز
+                    </option>
+
                 </select>
+
             </div>
 
+
             <div class="field">
-                <label>ماه</label>
+
+                <label>
+                    ماه
+                </label>
 
                 <select id="month">
-                    <option value="">ماه</option>
+
+                    <option value="">
+                        ماه
+                    </option>
+
                 </select>
+
             </div>
 
+
             <div class="field">
-                <label>سال</label>
+
+                <label>
+                    سال
+                </label>
 
                 <select id="year">
-                    <option value="">سال</option>
+
+                    <option value="">
+                        سال
+                    </option>
+
                 </select>
+
             </div>
 
         </div>
 
-        <div class="duration-field">
+
+        <!-- TIME -->
+
+        <div class="time-field">
 
             <div class="field">
 
-                <label>🕐 ساعت</label>
+                <label>
+                    🕐 ساعت
+                </label>
 
                 <input
                     id="time"
-                    class="time-input"
                     type="time"
-                    required
                 >
 
             </div>
 
         </div>
 
+
+        <!-- DURATION -->
+
         <div class="duration-field">
 
             <div class="field">
 
-                <label>⏱ مدت زمان</label>
+                <label>
+                    ⏱ مدت زمان
+                </label>
+
 
                 <select id="duration">
 
@@ -388,735 +583,897 @@
 
     </div>
 
+
+    <!-- SUBMIT -->
+
     <button
         id="submit"
-        class="submit-btn"
+        class="submit"
         type="button"
     >
         ثبت انتخاب‌ها
     </button>
 
-    <div id="message" class="message"></div>
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
 
 </div>
 
 
 <script>
 
-    const telegram = window.Telegram?.WebApp;
-
-    if (telegram) {
-        telegram.ready();
-        telegram.expand();
-
-        try {
-            telegram.setHeaderColor(
-                telegram.themeParams?.bg_color || "#ffffff"
-            );
-        } catch (e) {}
-    }
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
 
-    /*
-     * =====================================================
-     * لیست گزینه‌ها
-     * =====================================================
-     *
-     * لیست فعلی خودت را اینجا قرار بده.
-     *
-     * مثال:
-     *
-     * const OPTIONS = [
-     *     "گزینه ۱",
-     *     "گزینه ۲",
-     *     "گزینه ۳"
-     * ];
-     *
-     */
+        /* =====================================
+           TELEGRAM
+        ===================================== */
 
-    const options = [
-        "سکس عادی",
-  "کتک زدن و تنبیه طولانی(حداقل ۳۰ دقیقه)",
-  "سیلی تو صورت(خشن و زیاد)",
-  "شلاق زدن با کمربند",
-  "گرفتن گلو(ارام و با احتیاط) موقع سکس",
-  "گذاشتن پا روی صورت و تحقیر",
-  "گاییدن دهان",
-  "ریختن تف روی صورت و بدن",
-  "ریختن آب تو دهان",
-  "ریختن آب رو کمر و کون",
-  "حق تحقیر(کلامی، گذاشتن پا روی سر، کتک)",
-  "صحبت کثیف(گفتن جمله هایی مثل جنده و ...)",
-  "بستن دست و پا",
-  "بستن چشم",
-  "شاشیدن رو صورت و بدن",
-  "سکس تو تراس",
-  "سکس تو حمام",
-  "تریسام",
-  "گنگ بنگ",
-  "گروپ سکس",
-  "چالش ارضا رو صورت(ارضا شدن گروهی رو صورت)",
-  "کشیدن نوک سینه",
-  "گاز گرفتن سینه",
-  "تف روی صورت و بدن و سیلی و اسپنک",
-  "التماس کردن",
-  "لیسیدن کفش",
-  "لیسیدن زمین",
-  "مجبور کردن خودش رو معرفی کنه با لقب تحقیرآمیز",
-  "بستن به صندلی",
-  "بستن با کمربند",
-  "بستن به تخت",
-  "شاش روی کون",
-  "سکس تو راه پله",
-  "نقش اینکه نمی‌تونه نه بگه",
-  "نقش ارباب و برده",
-  "نقش بدهکار که باید جبران کنه",
-  "نقش غریبه که زور میگه",
-  "نقش مهمونی که همه استفاده می‌کنن",
-  "نقش نوکر خونه",
-  "نقش مجازات به خاطر اشتباه",
-  "نقش فروخته شدن برای یک شب",
-  "نقش بازجویی خشن",
-  "تف رو صورت موقع کتک",
-  "بستن به تخت و کتک زدن",
-  "سکس توی ماشین شب",
-  "سکس توی جنگل شب",
-  "سکس با روغن و ماساژ",
-  "سکس با اشک و التماس",
-  "چند بار سکس"
-];
+        const tg =
+            window.Telegram &&
+            window.Telegram.WebApp
+                ? window.Telegram.WebApp
+                : null;
 
 
-    /*
-     * =====================================================
-     * Worker
-     * =====================================================
-     */
+        if (tg) {
 
-    const WORKER_URL =
-        "https://partner-selector-worker.mrg69plus.workers.dev/";
+            tg.ready();
 
+            tg.expand();
 
-    const selected = new Set();
-    const customOptions = [];
-
-
-    const optionsContainer =
-        document.getElementById("options");
-
-    const searchInput =
-        document.getElementById("search");
-
-    const counter =
-        document.getElementById("counter");
-
-    const customInput =
-        document.getElementById("customInput");
-
-    const addCustomButton =
-        document.getElementById("addCustom");
-
-    const customList =
-        document.getElementById("customList");
-
-    const submitButton =
-        document.getElementById("submit");
-
-    const message =
-        document.getElementById("message");
-
-
-    /*
-     * =====================================================
-     * فارسی کردن اعداد
-     * =====================================================
-     */
-
-    function toPersianNumber(value) {
-
-        return String(value).replace(
-            /\d/g,
-            digit => "۰۱۲۳۴۵۶۷۸۹"[digit]
-        );
-
-    }
-
-
-    /*
-     * =====================================================
-     * تاریخ امروز شمسی
-     * =====================================================
-     */
-
-    function gregorianToJalali(gy, gm, gd) {
-
-        const g_d_m = [
-            0, 31, 59, 90, 120, 151,
-            181, 212, 243, 273, 304, 334
-        ];
-
-        let jy;
-
-        if (gy > 1600) {
-
-            jy = 979;
-
-            gy -= 1600;
-
-        } else {
-
-            jy = 0;
-
-            gy -= 621;
-
-        }
-
-        const gy2 = (gm > 2) ? gy + 1 : gy;
-
-        let days =
-            (365 * gy)
-            + Math.floor((gy2 + 3) / 4)
-            - Math.floor((gy2 + 99) / 100)
-            + Math.floor((gy2 + 399) / 400)
-            - 80
-            + gd
-            + g_d_m[gm - 1];
-
-        jy += 33 * Math.floor(days / 12053);
-
-        days %= 12053;
-
-        jy += 4 * Math.floor(days / 1461);
-
-        days %= 1461;
-
-        if (days > 365) {
-
-            jy += Math.floor((days - 1) / 365);
-
-            days = (days - 1) % 365;
-
-        }
-
-        const jm =
-            days < 186
-                ? 1 + Math.floor(days / 31)
-                : 7 + Math.floor((days - 186) / 30);
-
-        const jd =
-            1 + (
-                days < 186
-                    ? days % 31
-                    : (days - 186) % 30
-            );
-
-        return [jy, jm, jd];
-
-    }
-
-
-    /*
-     * =====================================================
-     * پر کردن تاریخ
-     * =====================================================
-     */
-
-    function setupDateSelectors() {
-
-        const day =
-            document.getElementById("day");
-
-        const month =
-            document.getElementById("month");
-
-        const year =
-            document.getElementById("year");
-
-
-        for (let i = 1; i <= 31; i++) {
-
-            const option =
-                document.createElement("option");
-
-            option.value = i;
-            option.textContent = toPersianNumber(i);
-
-            day.appendChild(option);
+            try {
+                tg.setHeaderColor(
+                    tg.themeParams.bg_color
+                );
+            } catch (e) {}
 
         }
 
 
-        const months = [
-            "فروردین",
-            "اردیبهشت",
-            "خرداد",
-            "تیر",
-            "مرداد",
-            "شهریور",
-            "مهر",
-            "آبان",
-            "آذر",
-            "دی",
-            "بهمن",
-            "اسفند"
+        /* =====================================
+           WORKER
+        ===================================== */
+
+        const WORKER_URL =
+            "https://partner-selector-worker.mrg69plus.workers.dev/";
+
+
+        /* =====================================
+           لیست آماده
+           
+           فعلاً ۴ گزینه برای تست.
+           بعداً لیست اصلی خودت را اینجا بگذار.
+        ===================================== */
+
+        const OPTIONS = [
+
+            "گزینه ۱",
+            "گزینه ۲",
+            "گزینه ۳",
+            "گزینه ۴"
+
         ];
 
 
-        months.forEach((name, index) => {
+        /* =====================================
+           STATE
+        ===================================== */
 
-            const option =
-                document.createElement("option");
+        const selected =
+            new Set();
 
-            option.value = index + 1;
-            option.textContent = name;
-
-            month.appendChild(option);
-
-        });
+        const customOptions =
+            [];
 
 
-        const now = new Date();
+        /* =====================================
+           ELEMENTS
+        ===================================== */
 
-        const [jy, jm, jd] =
-            gregorianToJalali(
-                now.getFullYear(),
-                now.getMonth() + 1,
-                now.getDate()
+        const optionsElement =
+            document.getElementById(
+                "options"
+            );
+
+        const searchElement =
+            document.getElementById(
+                "search"
+            );
+
+        const counterElement =
+            document.getElementById(
+                "counter"
+            );
+
+        const customInput =
+            document.getElementById(
+                "customInput"
+            );
+
+        const addCustom =
+            document.getElementById(
+                "addCustom"
+            );
+
+        const customList =
+            document.getElementById(
+                "customList"
+            );
+
+        const submit =
+            document.getElementById(
+                "submit"
+            );
+
+        const message =
+            document.getElementById(
+                "message"
             );
 
 
-        for (
-            let y = jy;
-            y <= jy + 2;
-            y++
-        ) {
+        /* =====================================
+           PERSIAN NUMBERS
+        ===================================== */
 
-            const option =
-                document.createElement("option");
+        function persianNumber(value) {
 
-            option.value = y;
-            option.textContent = toPersianNumber(y);
+            return String(value).replace(
+                /\d/g,
+                function (digit) {
 
-            year.appendChild(option);
-
-        }
-
-
-        day.value = jd;
-        month.value = jm;
-        year.value = jy;
-
-    }
-
-
-    /*
-     * =====================================================
-     * نمایش گزینه‌ها
-     * =====================================================
-     */
-
-    function renderOptions(filter = "") {
-
-        optionsContainer.innerHTML = "";
-
-        const search =
-            filter.trim().toLowerCase();
-
-
-        OPTIONS.forEach(optionText => {
-
-            if (
-                search &&
-                !optionText
-                    .toLowerCase()
-                    .includes(search)
-            ) {
-                return;
-            }
-
-
-            const element =
-                document.createElement("div");
-
-            element.className = "option";
-
-            element.textContent = optionText;
-
-
-            if (selected.has(optionText)) {
-                element.classList.add("selected");
-            }
-
-
-            element.addEventListener(
-                "click",
-                () => {
-
-                    if (selected.has(optionText)) {
-
-                        selected.delete(optionText);
-
-                    } else {
-
-                        selected.add(optionText);
-
-                    }
-
-                    element.classList.toggle(
-                        "selected",
-                        selected.has(optionText)
-                    );
-
-                    updateCounter();
+                    return "۰۱۲۳۴۵۶۷۸۹"[digit];
 
                 }
             );
 
-
-            optionsContainer.appendChild(element);
-
-        });
-
-    }
+        }
 
 
-    /*
-     * =====================================================
-     * شمارنده
-     * =====================================================
-     */
+        /* =====================================
+           RENDER OPTIONS
+        ===================================== */
 
-    function updateCounter() {
+        function renderOptions() {
 
-        const count =
-            selected.size + customOptions.length;
-
-        counter.textContent =
-            `${toPersianNumber(count)} گزینه انتخاب شده`;
-
-    }
+            optionsElement.innerHTML = "";
 
 
-    /*
-     * =====================================================
-     * گزینه سفارشی
-     * =====================================================
-     */
-
-    function renderCustomOptions() {
-
-        customList.innerHTML = "";
+            const query =
+                searchElement.value
+                    .trim()
+                    .toLowerCase();
 
 
-        customOptions.forEach(
-            (item, index) => {
-
-                const row =
-                    document.createElement("div");
-
-                row.className = "custom-item";
+            OPTIONS.forEach(
+                function (item) {
 
 
-                const text =
-                    document.createElement("span");
+                    if (
+                        query &&
+                        !item
+                            .toLowerCase()
+                            .includes(query)
+                    ) {
 
-                text.textContent = item;
-
-
-                const remove =
-                    document.createElement("button");
-
-                remove.className =
-                    "remove-btn";
-
-                remove.textContent = "×";
-
-                remove.type = "button";
-
-
-                remove.addEventListener(
-                    "click",
-                    () => {
-
-                        customOptions.splice(index, 1);
-
-                        renderCustomOptions();
-
-                        updateCounter();
+                        return;
 
                     }
-                );
 
 
-                row.appendChild(text);
-                row.appendChild(remove);
+                    const element =
+                        document.createElement(
+                            "div"
+                        );
 
-                customList.appendChild(row);
 
-            }
-        );
+                    element.className =
+                        "option";
 
-    }
 
+                    element.textContent =
+                        item;
 
-    function addCustomOption() {
 
-        const value =
-            customInput.value.trim();
+                    if (
+                        selected.has(item)
+                    ) {
 
+                        element.classList.add(
+                            "selected"
+                        );
 
-        if (!value) {
-            return;
-        }
+                    }
 
 
-        customOptions.push(value);
+                    element.addEventListener(
+                        "click",
+                        function () {
 
-        customInput.value = "";
 
-        renderCustomOptions();
+                            if (
+                                selected.has(item)
+                            ) {
 
-        updateCounter();
+                                selected.delete(
+                                    item
+                                );
 
-    }
+                            } else {
 
+                                selected.add(
+                                    item
+                                );
 
-    addCustomButton.addEventListener(
-        "click",
-        addCustomOption
-    );
+                            }
 
 
-    customInput.addEventListener(
-        "keydown",
-        event => {
+                            element.classList.toggle(
+                                "selected",
+                                selected.has(item)
+                            );
 
-            if (event.key === "Enter") {
 
-                event.preventDefault();
+                            updateCounter();
 
-                addCustomOption();
-
-            }
-
-        }
-    );
-
-
-    /*
-     * =====================================================
-     * سرچ
-     * =====================================================
-     */
-
-    searchInput.addEventListener(
-        "input",
-        () => {
-
-            renderOptions(
-                searchInput.value
-            );
-
-        }
-    );
-
-
-    /*
-     * =====================================================
-     * ارسال
-     * =====================================================
-     */
-
-    submitButton.addEventListener(
-        "click",
-        async () => {
-
-            message.textContent = "";
-
-
-            const day =
-                document.getElementById("day").value;
-
-            const month =
-                document.getElementById("month").value;
-
-            const year =
-                document.getElementById("year").value;
-
-            const time =
-                document.getElementById("time").value;
-
-            const duration =
-                document.getElementById("duration").value;
-
-
-            if (!day || !month || !year) {
-
-                message.textContent =
-                    "❌ تاریخ را انتخاب کن.";
-
-                return;
-
-            }
-
-
-            if (!time) {
-
-                message.textContent =
-                    "❌ ساعت را انتخاب کن.";
-
-                return;
-
-            }
-
-
-            if (!duration) {
-
-                message.textContent =
-                    "❌ مدت زمان را انتخاب کن.";
-
-                return;
-
-            }
-
-
-            if (
-                selected.size === 0 &&
-                customOptions.length === 0
-            ) {
-
-                message.textContent =
-                    "❌ حداقل یک گزینه انتخاب کن.";
-
-                return;
-
-            }
-
-
-            const jalaliDate =
-                `${toPersianNumber(year)}/` +
-                `${toPersianNumber(
-                    String(month).padStart(2, "0")
-                )}/` +
-                `${toPersianNumber(
-                    String(day).padStart(2, "0")
-                )}`;
-
-
-            const formattedTime =
-                toPersianNumber(time);
-
-
-            const data = {
-
-                selected: [
-                    ...selected
-                ],
-
-                custom: [
-                    ...customOptions
-                ],
-
-                date: jalaliDate,
-
-                time: formattedTime,
-
-                duration: duration,
-
-                telegramUser:
-                    telegram?.initDataUnsafe?.user || null
-
-            };
-
-
-            submitButton.disabled = true;
-
-            submitButton.textContent =
-                "در حال ارسال...";
-
-
-            try {
-
-                const response =
-                    await fetch(
-                        WORKER_URL,
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body:
-                                JSON.stringify(data)
                         }
                     );
 
 
-                const result =
-                    await response.json();
-
-
-                if (!response.ok ||
-                    !result.success) {
-
-                    throw new Error(
-                        "Request failed"
+                    optionsElement.appendChild(
+                        element
                     );
+
+                }
+            );
+
+        }
+
+
+        /* =====================================
+           COUNTER
+        ===================================== */
+
+        function updateCounter() {
+
+            const count =
+                selected.size +
+                customOptions.length;
+
+
+            counterElement.textContent =
+                persianNumber(count) +
+                " گزینه انتخاب شده";
+
+        }
+
+
+        /* =====================================
+           CUSTOM OPTIONS
+        ===================================== */
+
+        function renderCustomOptions() {
+
+            customList.innerHTML = "";
+
+
+            customOptions.forEach(
+                function (item, index) {
+
+
+                    const row =
+                        document.createElement(
+                            "div"
+                        );
+
+                    row.className =
+                        "custom-item";
+
+
+                    const text =
+                        document.createElement(
+                            "span"
+                        );
+
+                    text.textContent =
+                        item;
+
+
+                    const remove =
+                        document.createElement(
+                            "button"
+                        );
+
+                    remove.className =
+                        "remove";
+
+                    remove.type =
+                        "button";
+
+                    remove.textContent =
+                        "×";
+
+
+                    remove.addEventListener(
+                        "click",
+                        function () {
+
+                            customOptions.splice(
+                                index,
+                                1
+                            );
+
+                            renderCustomOptions();
+
+                            updateCounter();
+
+                        }
+                    );
+
+
+                    row.appendChild(text);
+
+                    row.appendChild(remove);
+
+                    customList.appendChild(row);
+
+                }
+            );
+
+        }
+
+
+        function addCustomOption() {
+
+            const value =
+                customInput.value.trim();
+
+
+            if (!value) {
+                return;
+            }
+
+
+            customOptions.push(value);
+
+
+            customInput.value = "";
+
+
+            renderCustomOptions();
+
+            updateCounter();
+
+        }
+
+
+        addCustom.addEventListener(
+            "click",
+            addCustomOption
+        );
+
+
+        customInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    event.preventDefault();
+
+                    addCustomOption();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================
+           SEARCH
+        ===================================== */
+
+        searchElement.addEventListener(
+            "input",
+            renderOptions
+        );
+
+
+        /* =====================================
+           JALALI DATE
+        ===================================== */
+
+        function gregorianToJalali(
+            gy,
+            gm,
+            gd
+        ) {
+
+            const gdm = [
+                0, 31, 59, 90, 120, 151,
+                181, 212, 243, 273,
+                304, 334
+            ];
+
+
+            let jy;
+
+
+            if (gy > 1600) {
+
+                jy = 979;
+
+                gy -= 1600;
+
+            } else {
+
+                jy = 0;
+
+                gy -= 621;
+
+            }
+
+
+            const gy2 =
+                gm > 2
+                    ? gy + 1
+                    : gy;
+
+
+            let days =
+                (365 * gy) +
+                Math.floor(
+                    (gy2 + 3) / 4
+                ) -
+                Math.floor(
+                    (gy2 + 99) / 100
+                ) +
+                Math.floor(
+                    (gy2 + 399) / 400
+                ) -
+                80 +
+                gd +
+                gdm[gm - 1];
+
+
+            jy +=
+                33 *
+                Math.floor(
+                    days / 12053
+                );
+
+
+            days %= 12053;
+
+
+            jy +=
+                4 *
+                Math.floor(
+                    days / 1461
+                );
+
+
+            days %= 1461;
+
+
+            if (days > 365) {
+
+                jy +=
+                    Math.floor(
+                        (days - 1) / 365
+                    );
+
+                days =
+                    (days - 1) % 365;
+
+            }
+
+
+            const jm =
+                days < 186
+                    ? 1 +
+                      Math.floor(
+                          days / 31
+                      )
+                    : 7 +
+                      Math.floor(
+                          (days - 186) / 30
+                      );
+
+
+            const jd =
+                1 +
+                (
+                    days < 186
+                        ? days % 31
+                        : (days - 186) % 30
+                );
+
+
+            return [
+                jy,
+                jm,
+                jd
+            ];
+
+        }
+
+
+        /* =====================================
+           DATE SELECTORS
+        ===================================== */
+
+        function setupDate() {
+
+            const day =
+                document.getElementById(
+                    "day"
+                );
+
+            const month =
+                document.getElementById(
+                    "month"
+                );
+
+            const year =
+                document.getElementById(
+                    "year"
+                );
+
+
+            for (
+                let i = 1;
+                i <= 31;
+                i++
+            ) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value = i;
+
+                option.textContent =
+                    persianNumber(i);
+
+                day.appendChild(option);
+
+            }
+
+
+            const months = [
+
+                "فروردین",
+                "اردیبهشت",
+                "خرداد",
+                "تیر",
+                "مرداد",
+                "شهریور",
+                "مهر",
+                "آبان",
+                "آذر",
+                "دی",
+                "بهمن",
+                "اسفند"
+
+            ];
+
+
+            months.forEach(
+                function (name, index) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value =
+                        index + 1;
+
+                    option.textContent =
+                        name;
+
+                    month.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            const now =
+                new Date();
+
+
+            const [
+                jy,
+                jm,
+                jd
+            ] =
+                gregorianToJalali(
+                    now.getFullYear(),
+                    now.getMonth() + 1,
+                    now.getDate()
+                );
+
+
+            for (
+                let y = jy;
+                y <= jy + 2;
+                y++
+            ) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value = y;
+
+                option.textContent =
+                    persianNumber(y);
+
+                year.appendChild(
+                    option
+                );
+
+            }
+
+
+            day.value = jd;
+
+            month.value = jm;
+
+            year.value = jy;
+
+        }
+
+
+        /* =====================================
+           SUBMIT
+        ===================================== */
+
+        submit.addEventListener(
+            "click",
+            async function () {
+
+
+                message.textContent =
+                    "";
+
+
+                const day =
+                    document.getElementById(
+                        "day"
+                    ).value;
+
+
+                const month =
+                    document.getElementById(
+                        "month"
+                    ).value;
+
+
+                const year =
+                    document.getElementById(
+                        "year"
+                    ).value;
+
+
+                const time =
+                    document.getElementById(
+                        "time"
+                    ).value;
+
+
+                const duration =
+                    document.getElementById(
+                        "duration"
+                    ).value;
+
+
+                if (
+                    !day ||
+                    !month ||
+                    !year
+                ) {
+
+                    message.textContent =
+                        "❌ تاریخ را انتخاب کن.";
+
+                    return;
 
                 }
 
 
-                message.textContent =
-                    "✅ با موفقیت ثبت شد.";
+                if (!time) {
 
-                submitButton.textContent =
-                    "ثبت شد ✓";
+                    message.textContent =
+                        "❌ ساعت را انتخاب کن.";
+
+                    return;
+
+                }
 
 
-                if (telegram) {
+                if (!duration) {
+
+                    message.textContent =
+                        "❌ مدت زمان را انتخاب کن.";
+
+                    return;
+
+                }
+
+
+                if (
+                    selected.size === 0 &&
+                    customOptions.length === 0
+                ) {
+
+                    message.textContent =
+                        "❌ حداقل یک گزینه انتخاب کن.";
+
+                    return;
+
+                }
+
+
+                const formattedDate =
+                    persianNumber(year) +
+                    "/" +
+                    persianNumber(
+                        String(month)
+                            .padStart(2, "0")
+                    ) +
+                    "/" +
+                    persianNumber(
+                        String(day)
+                            .padStart(2, "0")
+                    );
+
+
+                const formattedTime =
+                    persianNumber(time);
+
+
+                const data = {
+
+                    selected:
+                        Array.from(
+                            selected
+                        ),
+
+                    custom:
+                        Array.from(
+                            customOptions
+                        ),
+
+                    date:
+                        formattedDate,
+
+                    time:
+                        formattedTime,
+
+                    duration:
+                        duration,
+
+                    telegramUser:
+                        tg?.initDataUnsafe
+                            ?.user || null
+
+                };
+
+
+                submit.disabled =
+                    true;
+
+
+                submit.textContent =
+                    "در حال ارسال...";
+
+
+                try {
+
+
+                    const response =
+                        await fetch(
+                            WORKER_URL,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        data
+                                    )
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    if (
+                        !response.ok ||
+                        !result.success
+                    ) {
+
+                        throw new Error(
+                            "Worker error"
+                        );
+
+                    }
+
+
+                    message.textContent =
+                        "✅ با موفقیت ثبت شد.";
+
+
+                    submit.textContent =
+                        "ثبت شد ✓";
+
 
                     try {
 
-                        telegram.HapticFeedback
+                        tg?.HapticFeedback
                             ?.notificationOccurred(
                                 "success"
                             );
 
                     } catch (e) {}
 
+
+                } catch (error) {
+
+
+                    console.error(
+                        error
+                    );
+
+
+                    message.textContent =
+                        "❌ خطا در ثبت. دوباره امتحان کن.";
+
+
+                    submit.disabled =
+                        false;
+
+
+                    submit.textContent =
+                        "ثبت انتخاب‌ها";
+
                 }
 
-            } catch (error) {
-
-                console.error(error);
-
-                message.textContent =
-                    "❌ خطا در ثبت. دوباره امتحان کن.";
-
-                submitButton.disabled = false;
-
-                submitButton.textContent =
-                    "ثبت انتخاب‌ها";
-
             }
-
-        }
-    );
+        );
 
 
-    /*
-     * =====================================================
-     * شروع
-     * =====================================================
-     */
+        /* =====================================
+           START
+        ===================================== */
 
-    setupDateSelectors();
+        setupDate();
 
-    renderOptions();
+        renderOptions();
 
-    updateCounter();
+        updateCounter();
+
+    });
 
 </script>
 
